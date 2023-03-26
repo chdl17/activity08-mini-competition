@@ -1,28 +1,39 @@
----
-title: "Activity 8 - Mini-competition"
-output: github_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+Activity 8 - Mini-competition
+================
 
 ## Loading Dataset
 
-```{r}
+``` r
 # Load the data
 data <- read.csv("inventory.csv")
 ```
 
-```{r}
+``` r
 # Load libraries
 library(ggplot2)
 library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
 library(forecast)
 ```
 
+    ## Registered S3 method overwritten by 'quantmod':
+    ##   method            from
+    ##   as.zoo.data.frame zoo
 
-```{r}
+``` r
 # Plot the sold items by week for each item_no
 ggplot(data, aes(x = week, y = sold, group = item_no, color = item_no)) + 
   geom_line() + 
@@ -32,8 +43,9 @@ ggplot(data, aes(x = week, y = sold, group = item_no, color = item_no)) +
   theme_bw()
 ```
 
+![](mini-competition_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-```{r}
+``` r
 # Plot the total sold items for each item_no
 data_summary <- data %>%
   group_by(item_no) %>%
@@ -48,11 +60,18 @@ ggplot(data_summary, aes(x = item_no, y = total_sold)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
-The first visualization shows the sold items by week for each item number, and the second visualization shows the total sold items for each item number. From the first visualization, we can see that some items have a consistent demand over time, while others have demand spikes. From the second visualization, we can see that some items have a higher total sold items than others.
+![](mini-competition_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+The first visualization shows the sold items by week for each item
+number, and the second visualization shows the total sold items for each
+item number. From the first visualization, we can see that some items
+have a consistent demand over time, while others have demand spikes.
+From the second visualization, we can see that some items have a higher
+total sold items than others.
 
 ## Creating GLM Model
-```{r}
 
+``` r
 # Create a list of unique item_no
 items <- unique(data$item_no)
 
@@ -67,8 +86,6 @@ for (i in 1:length(items)) {
 }
 ```
 
+    ## Warning: glm.fit: algorithm did not converge
 
-```{r}
-
-```
-
+    ## Warning: glm.fit: fitted rates numerically 0 occurred
